@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学校著作権ナビ - 授業目的公衆送信補償金制度対応</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f8fafc; }
+        .step-transition { transition: all 0.3s ease-in-out; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="max-w-2xl w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <!-- Header -->
+        <div class="bg-indigo-600 p-6 text-white text-center">
+            <h1 class="text-xl font-bold">著作権判断アシスタント</h1>
+            <p class="text-indigo-100 text-sm mt-1">学校現場での著作権利用を即座に判定</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progress-container" class="w-full bg-slate-200 h-2 hidden">
+            <div id="progress-bar" class="bg-indigo-400 h-2 transition-all duration-500" style="width: 0%"></div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="content" class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center fade-in">
+                <div class="mb-6">
+                    <svg class="w-20 h-20 mx-auto text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">著作権利用の自己判断を開始します</h2>
+                <p class="text-slate-600 mb-8 leading-relaxed">
+                    このアプリは、著作権法第35条および授業目的公衆送信補償金制度に基づき、あなたの資料利用が適切かどうかをガイドします。
+                </p>
+                <button onclick="startApp()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-lg transition shadow-lg">
+                    診断をはじめる
+                </button>
+            </div>
+
+            <!-- Question Screen (Template) -->
+            <div id="question-screen" class="hidden fade-in">
+                <p id="question-id" class="text-indigo-500 font-bold mb-2 uppercase tracking-wider">Question 01</p>
+                <h3 id="question-text" class="text-xl font-bold text-slate-800 mb-6 min-h-[3rem]">質問文がここに入ります</h3>
+                
+                <div class="space-y-4">
+                    <button onclick="handleAnswer(true)" class="w-full p-4 border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 rounded-xl text-left font-semibold text-slate-700 flex items-center justify-between group transition">
+                        <span>はい</span>
+                        <svg class="w-5 h-5 text-slate-300 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <button onclick="handleAnswer(false)" class="w-full p-4 border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 rounded-xl text-left font-semibold text-slate-700 flex items-center justify-between group transition">
+                        <span>いいえ</span>
+                        <svg class="w-5 h-5 text-slate-300 group-hover:text-indigo-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+                <button onclick="goBack()" class="mt-8 text-slate-400 text-sm hover:text-slate-600 flex items-center gap-1">
+                    ← 前の質問に戻る
+                </button>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden fade-in">
+                <div id="result-badge" class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase mb-4">判定結果</div>
+                <h2 id="result-title" class="text-2xl font-bold mb-4">タイトル</h2>
+                <div id="result-desc" class="text-slate-600 mb-8 p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-400 italic">説明文</div>
+                
+                <!-- Guidelines -->
+                <div id="guideline-section" class="mt-8 pt-8 border-t border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-lg">
+                        <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                        正しい出典の書き方見本
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">判定が「利用可能」な場合、以下の形式を参考に資料へ出典を明記してください。</p>
+                    <div class="space-y-4 text-sm">
+                        <div class="p-3 bg-white border rounded-lg shadow-sm">
+                            <p class="font-bold text-indigo-600 mb-1">書籍・雑誌</p>
+                            <code class="block bg-slate-100 p-2 rounded text-slate-700">著者名『書名』出版社名、発行年、該当ページ</code>
+                        </div>
+                        <div class="p-3 bg-white border rounded-lg shadow-sm">
+                            <p class="font-bold text-indigo-600 mb-1">Webサイト</p>
+                            <code class="block bg-slate-100 p-2 rounded text-slate-700">サイト名, "記事タイトル", URL, (参照日: 2024/02/03)</code>
+                        </div>
+                        <div class="p-3 bg-white border rounded-lg shadow-sm">
+                            <p class="font-bold text-indigo-600 mb-1">新聞</p>
+                            <code class="block bg-slate-100 p-2 rounded text-slate-700">朝日新聞「タイトル」2024年2月3日朝刊、15面</code>
+                        </div>
+                        <div class="p-3 bg-white border rounded-lg shadow-sm">
+                            <p class="font-bold text-indigo-600 mb-1">YouTube動画</p>
+                            <code class="block bg-slate-100 p-2 rounded text-slate-700">チャンネル名, "動画タイトル", URL, (再生箇所 02:15)</code>
+                        </div>
+                        <div class="p-3 bg-white border rounded-lg shadow-sm">
+                            <p class="font-bold text-indigo-600 mb-1">教科書</p>
+                            <code class="block bg-slate-100 p-2 rounded text-slate-700">著作権者『教科書名』発行者名、発行年、p.42</code>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="location.reload()" class="mt-10 w-full py-3 border-2 border-indigo-600 text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition">
+                    もう一度診断する
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: "Q1",
+                text: "あなたは教員、または授業を受ける生徒（または教育機関の職員）ですか？",
+                yes: 1, 
+                no: "FAIL_USER" 
+            },
+            {
+                id: "Q2",
+                text: "あなたの学校・自治体はSARTRAS（授業目的公衆送信補償金制度）への登録は完了していますか？",
+                yes: 2,
+                no: "CAUTION_SARTRAS"
+            },
+            {
+                id: "Q3",
+                text: "利用の目的は「授業の過程（ホームルームや学校行事を含む）」ですか？",
+                yes: 3,
+                no: "CAUTION_PURPOSE"
+            },
+            {
+                id: "Q4",
+                text: "使用する資料は、既にHPで公開されている、または出版されている「公表された著作物」ですか？",
+                yes: 4,
+                no: "CAUTION_UNPUBLISHED"
+            },
+            {
+                id: "Q5",
+                text: "使用する資料は、ドリルやワークブック、テスト等の「教育用著作物」の主要部分をコピーしたものですか？",
+                yes: "FAIL_DRILL",
+                no: 5
+            },
+            {
+                id: "Q6",
+                text: "学校HPへの掲載など、インターネットを通じた外部への発信（公衆送信）を予定していますか？",
+                yes: "CAUTION_EXTERNAL",
+                no: "SUCCESS"
+            }
+        ];
+
+        const results = {
+            "FAIL_USER": {
+                title: "要確認：対象外の可能性があります",
+                desc: "著作権法第35条の権利制限は「教員と生徒」が対象です。一般事務や外部講師の場合は、個別の許諾が必要になる場合があります。",
+                type: "danger"
+            },
+            "CAUTION_SARTRAS": {
+                title: "要注意：補償金制度の確認が必要です",
+                desc: "デジタル配信（Zoom、ロイロ、Google Classroom等）を行う場合、SARTRASへの登録が必要です。未登録の場合は、原則として個別の許諾が必要です。",
+                type: "warning"
+            },
+            "CAUTION_PURPOSE": {
+                title: "要注意：教育目的外の利用です",
+                desc: "「授業の過程」以外での利用（例：教員同士の個人的な共有、同窓会、収益事業）は、第35条の範囲外となるため、個別の許諾が必要です。",
+                type: "warning"
+            },
+            "CAUTION_UNPUBLISHED": {
+                title: "要注意：未公表著作物の疑い",
+                desc: "まだ世に出ていない個人の原稿や内部資料などは、利用に慎重な判断が必要です。出典元を確認してください。",
+                type: "warning"
+            },
+            "FAIL_DRILL": {
+                title: "原則不可：利益侵害の可能性が高い",
+                desc: "ドリルやワークブックなど、生徒一人一人が購入することを前提とした教材のコピー・配布は、著作権者の利益を不当に害するため、原則として認められません。",
+                type: "danger"
+            },
+            "CAUTION_EXTERNAL": {
+                title: "要注意：外部発信フローへ移行してください",
+                desc: "学校HP等の外部発信は「第35条」の範囲を超えます。引用の要件を満たすか、フリー素材の利用、または権利者の許諾が必要です。",
+                type: "warning"
+            },
+            "SUCCESS": {
+                title: "利用可能です（第35条 適用範囲内）",
+                desc: "判断の結果、現在の利用方法は著作権法第35条の範囲内である可能性が高いです。必ず以下の「出典」を明記した上で利用してください。",
+                type: "success"
+            }
+        };
+
+        let currentStep = 0;
+        let history = [];
+
+        function startApp() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('progress-container').classList.remove('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentStep];
+            const qScreen = document.getElementById('question-screen');
+            qScreen.classList.remove('fade-in');
+            void qScreen.offsetWidth; // trigger reflow
+            qScreen.classList.add('fade-in');
+
+            document.getElementById('question-id').innerText = `Question ${String(currentStep + 1).padStart(2, '0')}`;
+            document.getElementById('question-text').innerText = q.text;
+            updateProgressBar();
+        }
+
+        function handleAnswer(isYes) {
+            const q = questions[currentStep];
+            const nextAction = isYes ? q.yes : q.no;
+
+            history.push(currentStep);
+
+            if (typeof nextAction === 'number') {
+                currentStep = nextAction;
+                renderQuestion();
+            } else {
+                showResult(nextAction);
+            }
+        }
+
+        function goBack() {
+            if (history.length > 0) {
+                currentStep = history.pop();
+                renderQuestion();
+            } else {
+                location.reload();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentStep) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function showResult(resultKey) {
+            const res = results[resultKey];
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('progress-bar').style.width = `100%`;
+            
+            const resultScreen = document.getElementById('result-screen');
+            resultScreen.classList.remove('hidden');
+
+            const badge = document.getElementById('result-badge');
+            const title = document.getElementById('result-title');
+            
+            title.innerText = res.title;
+            document.getElementById('result-desc').innerText = res.desc;
+
+            if (res.type === 'danger') {
+                badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-bold uppercase mb-4 bg-red-100 text-red-600';
+                title.className = 'text-2xl font-bold mb-4 text-red-600';
+            } else if (res.type === 'warning') {
+                badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-bold uppercase mb-4 bg-orange-100 text-orange-600';
+                title.className = 'text-2xl font-bold mb-4 text-orange-600';
+            } else {
+                badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-bold uppercase mb-4 bg-green-100 text-green-600';
+                title.className = 'text-2xl font-bold mb-4 text-green-600';
+            }
+        }
+    </script>
+</body>
+</html>
