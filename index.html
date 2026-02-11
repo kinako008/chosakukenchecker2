@@ -9,10 +9,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
         }
         .step-card {
-            display: none;
+            display: 
         }
         .step-card.active {
             display: block;
@@ -29,19 +29,22 @@
             background-color: #f0f9ff;
             border-left: 6px solid #0ea5e9;
         }
+        input, select, textarea {
+            border: 1px solid #cbd5e1;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-4xl mx-auto">
         <!-- Header -->
         <header class="text-center mb-8">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">著作権セルフチェッカー</h1>
-            <p class="text-slate-600">授業での資料利用が著作権法に適合しているか確認しましょう</p>
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">著作権セルフチェッカー</h1>
+            <p class="text-slate-600">授業での著作物利用に関する法的判断と出典作成をサポートします</p>
         </header>
 
         <!-- Main Content -->
-        <main class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <main class="bg-white rounded-2xl shadow-xl overflow-hidden">
             
             <!-- Navigation Tabs -->
             <div class="flex border-b">
@@ -64,61 +67,65 @@
 
                     <!-- Question 1 -->
                     <div id="step1" class="step-card active">
-                        <h2 class="text-xl font-bold mb-6 text-slate-800">Q1. あなたは"教員"または"授業を受ける生徒"ですか？</h2>
+                        <div class="mb-2 text-blue-600 font-bold">Step 1: 利用主体の確認</div>
+                        <h2 class="text-xl font-bold mb-6 text-slate-800">あなたは「教育機関の教職員」または「授業を受ける児童・生徒・学生」ですか？</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="nextStep(1, 'yes')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">はい</span>
-                                <span class="text-sm text-slate-500">学校の授業に関わっています</span>
+                            <button onclick="nextStep(1, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-blue-600">はい</span>
+                                <span class="text-sm text-slate-500">学校（小・中・高・大など）の構成員です</span>
                             </button>
-                            <button onclick="showResult('warning', '原則「許諾」が必要です。', '転載可能なものか確認をしてください。')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">いいえ</span>
-                                <span class="text-sm text-slate-500">教育目的以外の利用です</span>
+                            <button onclick="showResult('warning', '著作権法第35条の対象外です。', '営利目的の塾、カルチャースクール、個人による解説動画などは、教育機関には含まれません。原則として著作権者の「許諾」が必要です。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">いいえ</span>
+                                <span class="text-sm text-slate-500">一般企業、塾、個人の活動など</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Question 2 -->
                     <div id="step2" class="step-card">
-                        <h2 class="text-xl font-bold mb-6 text-slate-800">Q2. 利用は"授業の過程"ですか？</h2>
-                        <p class="text-sm text-slate-500 mb-4">※HR・学校行事も含みます</p>
+                        <div class="mb-2 text-blue-600 font-bold">Step 2: 利用目的の確認</div>
+                        <h2 class="text-xl font-bold mb-6 text-slate-800">その利用は「授業の過程」で行われるものですか？</h2>
+                        <p class="text-sm text-slate-500 mb-4 italic">※通常の授業のほか、部活動、学校行事、ゼミ、教職員会議等も含みます。</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="nextStep(2, 'yes')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">はい</span>
-                                <span class="text-sm text-slate-500">教室での授業やオンライン授業です</span>
+                            <button onclick="nextStep(2, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-blue-600">はい</span>
+                                <span class="text-sm text-slate-500">授業内での配布、投影、LMSへのアップロード等</span>
                             </button>
-                            <button onclick="showResult('warning', '学校広報やHP掲載などは別フローで追加の確認が必要です。', 'HPなどインターネットで配信の可能性がある場合は、著作者の利益を害さないか確認してください。')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">いいえ</span>
-                                <span class="text-sm text-slate-500">学校HPへの掲載や広報誌など</span>
+                            <button onclick="showResult('warning', '35条の例外適用は受けられません。', '学校HPへの掲載、オープンキャンパスでの公開配布、対外的な広報誌への掲載は「授業の過程」とはみなされません。別途許諾が必要です。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">いいえ</span>
+                                <span class="text-sm text-slate-500">学校HP掲載、広報活動、地域交流会など</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Question 3 -->
                     <div id="step3" class="step-card">
-                        <h2 class="text-xl font-bold mb-6 text-slate-800">Q3. 使用する資料はHPで公開されている、もしくは出版されていますか？</h2>
+                        <div class="mb-2 text-blue-600 font-bold">Step 3: 資料の性質</div>
+                        <h2 class="text-xl font-bold mb-6 text-slate-800">使用する資料は、市販のドリル、ワークブック、テスト問題集、または楽譜ですか？</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="nextStep(3, 'yes')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">はい</span>
-                                <span class="text-sm text-slate-500">公表されている著作物です</span>
+                            <button onclick="showResult('critical', '著作権者の利益を不当に害する恐れが高いです。', 'ドリル等の消耗品は「一人一人が購入すること」を前提に販売されています。一部であってもコピー配布は販売機会を損なうため、法35条でも認められない可能性が極めて高いです。原則、全員分を購入してください。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">はい</span>
+                                <span class="text-sm text-slate-500">市販の教材・楽譜など</span>
                             </button>
-                            <button onclick="showResult('warning', '出所不明・違法入手の可能性あり。転載可能なものか確認を。', 'インターネットでも掲載可能な素材サイトの利用を検討してください。')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">いいえ</span>
-                                <span class="text-sm text-slate-500">非公表の資料や入手経路が不明なもの</span>
+                            <button onclick="nextStep(3, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-blue-600">いいえ</span>
+                                <span class="text-sm text-slate-500">新聞記事、一般書籍の一部、Web記事、写真など</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Question 4 -->
                     <div id="step4" class="step-card">
-                        <h2 class="text-xl font-bold mb-6 text-slate-800">Q4. 使用する資料はドリル・ワークブックなどの教材をコピーしたものですか？</h2>
+                        <div class="mb-2 text-blue-600 font-bold">Step 4: 分量の確認</div>
+                        <h2 class="text-xl font-bold mb-6 text-slate-800">利用する範囲は、著作物の「必要最小限（一部分）」ですか？</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="showResult('critical', '原則使えません。教材品のコピー・配布は原則できません。', 'その教材を全生徒分購入しましょう。市販ドリル等のコピーは著作権者の利益を不当に害するため、35条の例外でも認められにくいです。')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">はい</span>
-                                <span class="text-sm text-slate-500">市販のワークブックなど</span>
+                            <button onclick="showResult('success', '法35条の範囲内で利用可能です。', '必要最小限の複製・公衆送信（ICT活用）は無許諾で可能です。ただし、必ず「出典（参考文献）」を明記してください。また、ICT活用（LMS送信等）の場合はSARTRASへの補償金支払いが学校単位で必要ですが、個別の許諾は不要です。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-green-600">はい（一部分のみ）</span>
+                                <span class="text-sm text-slate-500">例：本の数ページ、記事の一部など</span>
                             </button>
-                            <button onclick="showResult('success', '利用可能です（教育利用の例外適用）', 'ただし、出典の明記は必須です。右側のタブから参考文献リストを作成しましょう。')" class="p-4 border-2 border-slate-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition text-left">
-                                <span class="font-bold text-lg block mb-1">いいえ</span>
-                                <span class="text-sm text-slate-500">新聞記事、書籍の一部、Webサイトなど</span>
+                            <button onclick="showResult('warning', '「全部」の複製は慎重な判断が必要です。', '俳句、写真、短編詩など、その性質上「全部」使わないと意味をなさないものは認められますが、1冊の本を丸ごとコピーすることは「必要限度」を超え、著作権者の利益を害するため認められません。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
+                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">いいえ（全部または大部分）</span>
+                                <span class="text-sm text-slate-500">1冊丸ごと、雑誌1号分全てなど</span>
                             </button>
                         </div>
                     </div>
@@ -127,95 +134,107 @@
                 <!-- Result Area -->
                 <div id="result-container" class="hidden">
                     <div id="result-alert" class="result-box bg-red-50 p-6 rounded-xl mb-6">
-                        <h3 class="font-bold text-red-800 mb-2 text-lg" id="result-title">要注意</h3>
-                        <p id="result-text" class="text-red-700"></p>
+                        <h3 class="font-bold text-red-800 mb-2 text-xl" id="result-title">要注意</h3>
+                        <p id="result-text" class="text-red-700 leading-relaxed"></p>
                     </div>
                     <div class="suggestion-box p-6 rounded-xl mb-8">
-                        <h4 class="font-bold text-blue-800 mb-2">提案・アドバイス</h4>
-                        <p id="suggestion-text" class="text-blue-700"></p>
+                        <h4 class="font-bold text-blue-800 mb-2">💡 具体的なアクションアドバイス</h4>
+                        <p id="suggestion-text" class="text-blue-700 leading-relaxed"></p>
                     </div>
-                    <button onclick="resetChecker()" class="w-full py-4 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition">
-                        最初からやり直す
-                    </button>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <button onclick="resetChecker()" class="flex-1 py-4 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition">
+                            もう一度診断する
+                        </button>
+                        <button onclick="switchTab('generator')" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
+                            出典（参考文献）を作成する
+                        </button>
+                    </div>
                 </div>
 
             </div>
 
             <!-- TAB 2: Reference Generator -->
             <div id="content-generator" class="hidden p-6 md:p-10">
-                <h2 class="text-xl font-bold mb-6 text-slate-800">参考文献・引用文献の作成</h2>
+                <h2 class="text-2xl font-bold mb-6 text-slate-800">参考文献作成ツール</h2>
                 
-                <div class="mb-6">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">文献タイプ</label>
-                    <div class="flex gap-4">
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="radio" name="refType" value="book" checked onchange="toggleRefFields()" class="w-4 h-4 text-blue-600">
-                            <span>書籍</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="radio" name="refType" value="web" onchange="toggleRefFields()" class="w-4 h-4 text-blue-600">
-                            <span>Webサイト</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="ref-form" class="space-y-4">
-                    <!-- Common Fields -->
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">著者名</label>
-                        <input type="text" id="ref-author" placeholder="例：山田 太郎" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" id="label-title">書名（タイトル）</label>
-                        <input type="text" id="ref-title" placeholder="例：著作権の基本" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                    </div>
-
-                    <!-- Book Specific -->
-                    <div id="fields-book" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-1">出版社</label>
-                            <input type="text" id="ref-publisher" placeholder="例：教育出版" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-1">発行年（西暦）</label>
-                            <input type="text" id="ref-year" placeholder="例：2023" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <div class="bg-slate-50 p-6 rounded-xl mb-8 border border-slate-200">
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-slate-700 mb-3">文献タイプを選択してください</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="refType" value="book" checked onchange="toggleRefFields()" class="w-5 h-5 text-blue-600">
+                                <span class="font-medium">書籍・論文</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="refType" value="web" onchange="toggleRefFields()" class="w-5 h-5 text-blue-600">
+                                <span class="font-medium">Webサイト・記事</span>
+                            </label>
                         </div>
                     </div>
 
-                    <!-- Web Specific -->
-                    <div id="fields-web" class="hidden space-y-4">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-1">URL</label>
-                            <input type="text" id="ref-url" placeholder="https://..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    <div id="ref-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">タイトル（必須）</label>
+                                <input type="text" id="ref-title" placeholder="例：著作権法と教育の未来" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">著者名</label>
+                                <input type="text" id="ref-author" placeholder="例：山田 太郎" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                            <div id="fields-book-publisher">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">出版社</label>
+                                <input type="text" id="ref-publisher" placeholder="例：学術出版" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                            <div id="fields-book-year">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">出版年（西暦）</label>
+                                <input type="text" id="ref-year" placeholder="例：2024" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                            <div id="fields-book-page">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">引用ページ</label>
+                                <input type="text" id="ref-page" placeholder="例：pp.45-50" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-1">閲覧日</label>
-                            <input type="date" id="ref-access-date" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                        </div>
-                    </div>
 
-                    <button onclick="generateReference()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
-                        参考文献を生成
-                    </button>
+                        <!-- Web Specific -->
+                        <div id="fields-web" class="hidden space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">URL</label>
+                                <input type="text" id="ref-url" placeholder="https://example.com/article" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">サイト名</label>
+                                <input type="text" id="ref-site-name" placeholder="例：文部科学省Webサイト" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">最終閲覧日</label>
+                                <input type="date" id="ref-access-date" class="w-full p-3 rounded-lg outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+
+                        <button onclick="generateReference()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                            参考文献テキストを作成
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Result Output -->
-                <div id="ref-output-container" class="mt-8 hidden">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">生成されたテキスト：</label>
+                <div id="ref-output-container" class="hidden">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">コピーして資料に貼り付けてください：</label>
                     <div class="relative">
-                        <textarea id="ref-result-text" readonly class="w-full p-4 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl text-slate-700 min-h-[100px]"></textarea>
-                        <button onclick="copyToClipboard()" class="absolute top-2 right-2 px-3 py-1 bg-white border rounded shadow-sm hover:bg-slate-100 text-xs font-bold">
+                        <textarea id="ref-result-text" readonly class="w-full p-5 bg-white border-2 border-blue-100 rounded-xl text-slate-800 font-mono text-sm min-h-[120px] focus:outline-none"></textarea>
+                        <button onclick="copyToClipboard()" class="absolute top-3 right-3 px-4 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 font-bold transition">
                             コピー
                         </button>
                     </div>
-                    <p id="copy-msg" class="text-green-600 text-xs mt-2 hidden">クリップボードにコピーしました！</p>
+                    <p id="copy-msg" class="text-green-600 font-bold text-sm mt-3 hidden text-center">✅ クリップボードにコピーしました</p>
                 </div>
             </div>
         </main>
 
-        <footer class="mt-8 text-center text-slate-400 text-sm">
-            <p>&copy; 2024 教育著作権チェックツール</p>
-            <p class="mt-1">本ツールは一般的なガイドラインを示すものであり、法的な助言を保証するものではありません。</p>
+        <footer class="mt-12 text-center text-slate-500 text-sm pb-10">
+            <p class="mb-2 font-bold italic text-slate-400">Copyright &copy; 2026 著作権セルフチェッカー Project</p>
+            <p>※本アプリは文部科学省「改正著作権法第35条運用指針」に基づき作成されていますが、最終的な法的判断は専門家にご相談ください。</p>
         </footer>
     </div>
 
@@ -228,19 +247,13 @@
             const generatorContent = document.getElementById('content-generator');
 
             if (tab === 'checker') {
-                checkerBtn.classList.add('text-blue-600', 'border-blue-600', 'bg-blue-50');
-                checkerBtn.classList.remove('text-slate-500');
-                generatorBtn.classList.add('text-slate-500');
-                generatorBtn.classList.remove('text-blue-600', 'border-blue-600', 'bg-blue-50');
-                
+                checkerBtn.className = "flex-1 py-4 text-center font-bold text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition";
+                generatorBtn.className = "flex-1 py-4 text-center font-bold text-slate-500 hover:bg-slate-50 transition";
                 checkerContent.classList.remove('hidden');
                 generatorContent.classList.add('hidden');
             } else {
-                generatorBtn.classList.add('text-blue-600', 'border-blue-600', 'bg-blue-50');
-                generatorBtn.classList.remove('text-slate-500');
-                checkerBtn.classList.add('text-slate-500');
-                checkerBtn.classList.remove('text-blue-600', 'border-blue-600', 'bg-blue-50');
-                
+                generatorBtn.className = "flex-1 py-4 text-center font-bold text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition";
+                checkerBtn.className = "flex-1 py-4 text-center font-bold text-slate-500 hover:bg-slate-50 transition";
                 generatorContent.classList.remove('hidden');
                 checkerContent.classList.add('hidden');
             }
@@ -266,16 +279,16 @@
             
             if (type === 'success') {
                 alertBox.className = 'result-box bg-green-50 border-green-500 p-6 rounded-xl mb-6';
-                title.innerText = 'OK';
-                title.className = 'font-bold text-green-800 mb-2 text-lg';
+                title.innerText = '利用OK（条件付き）';
+                title.className = 'font-bold text-green-800 mb-2 text-xl';
             } else if (type === 'warning') {
                 alertBox.className = 'result-box bg-orange-50 border-orange-500 p-6 rounded-xl mb-6';
-                title.innerText = '要注意';
-                title.className = 'font-bold text-orange-800 mb-2 text-lg';
+                title.innerText = '判断に注意が必要です';
+                title.className = 'font-bold text-orange-800 mb-2 text-xl';
             } else {
                 alertBox.className = 'result-box bg-red-50 border-red-500 p-6 rounded-xl mb-6';
-                title.innerText = '原則利用不可';
-                title.className = 'font-bold text-red-800 mb-2 text-lg';
+                title.innerText = '利用不可の可能性が高いです';
+                title.className = 'font-bold text-red-800 mb-2 text-xl';
             }
             
             document.getElementById('result-text').innerText = mainText;
@@ -295,41 +308,67 @@
         // Reference Generator Logic
         function toggleRefFields() {
             const type = document.querySelector('input[name="refType"]:checked').value;
-            const bookFields = document.getElementById('fields-book');
-            const webFields = document.getElementById('fields-web');
-            const titleLabel = document.getElementById('label-title');
+            const bookP = document.getElementById('fields-book-publisher');
+            const bookY = document.getElementById('fields-book-year');
+            const bookPg = document.getElementById('fields-book-page');
+            const webF = document.getElementById('fields-web');
 
             if (type === 'book') {
-                bookFields.classList.remove('hidden');
-                webFields.classList.add('hidden');
-                titleLabel.innerText = '書名';
+                bookP.classList.remove('hidden');
+                bookY.classList.remove('hidden');
+                bookPg.classList.remove('hidden');
+                webF.classList.add('hidden');
             } else {
-                bookFields.classList.add('hidden');
-                webFields.classList.remove('hidden');
-                titleLabel.innerText = 'ウェブサイトのタイトル / 記事タイトル';
+                bookP.classList.add('hidden');
+                bookY.classList.add('hidden');
+                bookPg.classList.add('hidden');
+                webF.classList.remove('hidden');
             }
             document.getElementById('ref-output-container').classList.add('hidden');
         }
 
         function generateReference() {
             const type = document.querySelector('input[name="refType"]:checked').value;
-            const author = document.getElementById('ref-author').value || '(著者不明)';
-            const title = document.getElementById('ref-title').value || '(タイトル不明)';
+            const title = document.getElementById('ref-title').value.trim();
+            const author = document.getElementById('ref-author').value.trim();
+            
+            if (!title) {
+                alert('タイトルは必須項目です。');
+                return;
+            }
+
             let result = "";
 
             if (type === 'book') {
-                const publisher = document.getElementById('ref-publisher').value || '(出版社不明)';
-                const year = document.getElementById('ref-year').value || '(発行年不明)';
-                result = `${author}『${title}』${publisher}, ${year}.`;
+                const publisher = document.getElementById('ref-publisher').value.trim();
+                const year = document.getElementById('ref-year').value.trim();
+                const page = document.getElementById('ref-page').value.trim();
+                
+                result = `出典：`;
+                if (author) result += `${author} `;
+                result += `『${title}』`;
+                if (publisher) result += ` ${publisher}`;
+                if (year) result += ` (${year})`;
+                if (page) result += ` ${page}`;
             } else {
-                const url = document.getElementById('ref-url').value || '(URL不明)';
-                const accessDate = document.getElementById('ref-access-date').value || '';
-                const formattedDate = accessDate ? `（参照 ${accessDate.replace(/-/g, '.')}）` : "";
-                result = `${author}. "${title}." ${url}${formattedDate}`;
+                const url = document.getElementById('ref-url').value.trim();
+                const siteName = document.getElementById('ref-site-name').value.trim();
+                const accessDate = document.getElementById('ref-access-date').value;
+                
+                result = `出典：`;
+                if (author) result += `${author}, `;
+                result += `"${title}"`;
+                if (siteName) result += `, ${siteName}`;
+                if (url) result += `, <${url}>`;
+                if (accessDate) {
+                    const d = accessDate.split('-');
+                    result += ` (${d[0]}年${d[1]}月${d[2]}日 閲覧)`;
+                }
             }
 
             document.getElementById('ref-result-text').value = result;
             document.getElementById('ref-output-container').classList.remove('hidden');
+            document.getElementById('copy-msg').classList.add('hidden');
         }
 
         function copyToClipboard() {
@@ -339,7 +378,6 @@
             
             const msg = document.getElementById('copy-msg');
             msg.classList.remove('hidden');
-            setTimeout(() => msg.classList.add('hidden'), 2000);
         }
 
         // Set default access date for Web
