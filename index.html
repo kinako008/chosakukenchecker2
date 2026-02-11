@@ -12,15 +12,10 @@
             background-color: #f1f5f9;
         }
         .step-card {
-            display: 
+            display: none;
         }
         .step-card.active {
             display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .result-box {
             border-left: 6px solid #ef4444;
@@ -70,12 +65,12 @@
                         <div class="mb-2 text-blue-600 font-bold">Step 1: 利用主体の確認</div>
                         <h2 class="text-xl font-bold mb-6 text-slate-800">あなたは「教育機関の教職員」または「授業を受ける児童・生徒・学生」ですか？</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="nextStep(1, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-blue-600">はい</span>
+                            <button onclick="nextStep(1, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">はい</span>
                                 <span class="text-sm text-slate-500">学校（小・中・高・大など）の構成員です</span>
                             </button>
-                            <button onclick="showResult('warning', '著作権法第35条の対象外です。', '営利目的の塾、カルチャースクール、個人による解説動画などは、教育機関には含まれません。原則として著作権者の「許諾」が必要です。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">いいえ</span>
+                            <button onclick="showResult('warning', '著作権法第35条の対象外です。', '営利目的の塾、カルチャースクール、個人による解説動画などは、教育機関には含まれません。原則として著作権者の「許諾」が必要です。')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">いいえ</span>
                                 <span class="text-sm text-slate-500">一般企業、塾、個人の活動など</span>
                             </button>
                         </div>
@@ -87,12 +82,12 @@
                         <h2 class="text-xl font-bold mb-6 text-slate-800">その利用は「授業の過程」で行われるものですか？</h2>
                         <p class="text-sm text-slate-500 mb-4 italic">※通常の授業のほか、部活動、学校行事、ゼミ、教職員会議等も含みます。</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="nextStep(2, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-blue-600">はい</span>
+                            <button onclick="nextStep(2, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">はい</span>
                                 <span class="text-sm text-slate-500">授業内での配布、投影、LMSへのアップロード等</span>
                             </button>
-                            <button onclick="showResult('warning', '35条の例外適用は受けられません。', '学校HPへの掲載、オープンキャンパスでの公開配布、対外的な広報誌への掲載は「授業の過程」とはみなされません。別途許諾が必要です。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">いいえ</span>
+                            <button onclick="showResult('warning', '35条の例外適用は受けられません。', '学校HPへの掲載、オープンキャンパスでの公開配布、対外的な広報誌への掲載は「授業の過程」とはみなされません。別途許諾が必要です。')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">いいえ</span>
                                 <span class="text-sm text-slate-500">学校HP掲載、広報活動、地域交流会など</span>
                             </button>
                         </div>
@@ -103,12 +98,12 @@
                         <div class="mb-2 text-blue-600 font-bold">Step 3: 資料の性質</div>
                         <h2 class="text-xl font-bold mb-6 text-slate-800">使用する資料は、市販のドリル、ワークブック、テスト問題集、または楽譜ですか？</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="showResult('critical', '著作権者の利益を不当に害する恐れが高いです。', 'ドリル等の消耗品は「一人一人が購入すること」を前提に販売されています。一部であってもコピー配布は販売機会を損なうため、法35条でも認められない可能性が極めて高いです。原則、全員分を購入してください。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">はい</span>
+                            <button onclick="showResult('critical', '著作権者の利益を不当に害する恐れが高いです。', 'ドリル等の消耗品は「一人一人が購入すること」を前提に販売されています。一部であってもコピー配布は販売機会を損なうため、法35条でも認められない可能性が極めて高いです。原則、全員分を購入してください。')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">はい</span>
                                 <span class="text-sm text-slate-500">市販の教材・楽譜など</span>
                             </button>
-                            <button onclick="nextStep(3, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-blue-600">いいえ</span>
+                            <button onclick="nextStep(3, 'yes')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">いいえ</span>
                                 <span class="text-sm text-slate-500">新聞記事、一般書籍の一部、Web記事、写真など</span>
                             </button>
                         </div>
@@ -119,12 +114,12 @@
                         <div class="mb-2 text-blue-600 font-bold">Step 4: 分量の確認</div>
                         <h2 class="text-xl font-bold mb-6 text-slate-800">利用する範囲は、著作物の「必要最小限（一部分）」ですか？</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <button onclick="showResult('success', '法35条の範囲内で利用可能です。', '必要最小限の複製・公衆送信（ICT活用）は無許諾で可能です。ただし、必ず「出典（参考文献）」を明記してください。また、ICT活用（LMS送信等）の場合はSARTRASへの補償金支払いが学校単位で必要ですが、個別の許諾は不要です。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-green-600">はい（一部分のみ）</span>
+                            <button onclick="showResult('success', '法35条の範囲内で利用可能です。', '必要最小限の複製・公衆送信（ICT活用）は無許諾で可能です。ただし、必ず「出典（参考文献）」を明記してください。また、ICT活用（LMS送信等）の場合はSARTRASへの補償金支払いが学校単位で必要ですが、個別の許諾は不要です。')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">はい（一部分のみ）</span>
                                 <span class="text-sm text-slate-500">例：本の数ページ、記事の一部など</span>
                             </button>
-                            <button onclick="showResult('warning', '「全部」の複製は慎重な判断が必要です。', '俳句、写真、短編詩など、その性質上「全部」使わないと意味をなさないものは認められますが、1冊の本を丸ごとコピーすることは「必要限度」を超え、著作権者の利益を害するため認められません。')" class="p-5 border-2 border-slate-200 rounded-xl hover:border-red-500 hover:bg-red-50 transition text-left group">
-                                <span class="font-bold text-lg block mb-1 group-hover:text-red-600">いいえ（全部または大部分）</span>
+                            <button onclick="showResult('warning', '「全部」の複製は慎重な判断が必要です。', '俳句、写真、短編詩など、その性質上「全部」使わないと意味をなさないものは認められますが、1冊の本を丸ごとコピーすることは「必要限度」を超え、著作権者の利益を害するため認められません。')" class="p-5 border-2 border-slate-200 rounded-xl transition text-left">
+                                <span class="font-bold text-lg block mb-1">いいえ（全部または大部分）</span>
                                 <span class="text-sm text-slate-500">1冊丸ごと、雑誌1号分全てなど</span>
                             </button>
                         </div>
@@ -261,12 +256,18 @@
 
         // Diagnostic Logic
         function nextStep(current, choice) {
-            document.getElementById(`step${current}`).classList.remove('active');
-            const next = current + 1;
-            document.getElementById(`step${next}`).classList.add('active');
+            const currentStep = document.getElementById(`step${current}`);
+            if (currentStep) {
+                currentStep.classList.remove('active');
+            }
             
-            const progress = (next / 4) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
+            const next = current + 1;
+            const nextStep = document.getElementById(`step${next}`);
+            if (nextStep) {
+                nextStep.classList.add('active');
+                const progress = (next / 4) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+            }
         }
 
         function showResult(type, mainText, suggestionText) {
