@@ -58,7 +58,7 @@
 
     <!-- Footer -->
     <footer class="max-w-4xl mx-auto p-4 text-center text-slate-400 text-xs mt-8 pb-12 border-t border-slate-200">
-        <p>&copy; 2025 Copyright Guide for Teachers</p>
+        <p>&copy; 2026 Copyright Guide for Teachers</p>
         <p>参考資料: 文化庁「著作権テキスト」 / SARTRAS運用指針 / JASRAC学校教育利用ガイド</p>
     </footer>
 
@@ -101,91 +101,60 @@
                 startQuestion: 'q_class_1'
             },
             {
-                id: 'event',
-                title: '文化祭・部活動（上演等）',
-                icon: 'music',
-                color: 'text-pink-600',
-                description: '演劇、演奏、ダンス、映画上映など',
-                startQuestion: 'q_event_1'
-            },
-            {
-                id: 'creative',
-                title: '校務・HP・広報',
-                icon: 'pen-tool',
-                color: 'text-emerald-600',
-                description: 'お便り、学校HP、研究紀要などへの掲載',
-                startQuestion: 'q_creative_1'
+                id: 'external',
+                title: '外部向け（お便り・HP等）',
+                icon: 'send',
+                color: 'text-orange-600',
+                description: '学年だより、学校HP、保護者会資料など',
+                startQuestion: 'q_external_1'
             }
         ];
 
         const data = {
-            // --- 授業シーン (画像のフローチャートに基づく) ---
+            // --- 授業シーン ---
             q_class_1: {
                 text: 'あなたは「教員」または「授業を受ける生徒」ですか？',
                 subText: '事務職員や保護者など、授業当事者以外による利用はこのフローの対象外となります。',
                 yes: 'q_class_2',
-                no: 'r_warn_permission' // 画像: 結果：要注意 -> 原則「許諾」が必要です
+                no: 'r_warn_permission'
             },
             q_class_2: {
                 text: '利用は「授業の過程」ですか？',
                 subText: '※HR（ホームルーム）、学校行事、部活動の指導も含みます。',
                 yes: 'q_class_3',
-                no: 'r_warn_pr' // 画像: 結果：要注意 -> 学校広報やHP掲載などは別フロー
+                no: 'r_warn_pr'
             },
             q_class_3: {
                 text: '使用する資料は、HPで公開されている、または出版されていますか？',
                 subText: '未公表の著作物や、違法にアップロードされたものを利用することはできません。',
                 yes: 'q_class_4',
-                no: 'r_warn_source' // 画像: 結果：要注意 -> 出所不明・違法入手の可能性あり
+                no: 'r_warn_source'
             },
             q_class_4: {
                 text: '使用する資料は、ドリル・ワークブックなどの「教材品」をコピーしたものですか？',
                 subText: '生徒が購入することを前提として市販されている資料のことです。',
-                yes: 'r_ng_drill', // 画像: 結果：原則使えません
-                no: 'r_ok_class' // フローの終端（OK）
+                yes: 'r_ng_drill',
+                no: 'r_ok_class'
             },
 
-            // --- イベントシーン (既存ロジック維持) ---
-            q_event_1: {
-                text: 'そのイベントは「営利目的（お金儲け）」ではありませんか？',
-                subText: '通常の学校行事（文化祭など）は「非営利」とみなされます。',
-                yes: 'q_event_2',
-                no: 'r_ng_profit'
-            },
-            q_event_2: {
-                text: '観客から「入場料（チケット代）」などを徴収しますか？',
-                yes: 'r_ng_ticket',
-                no: 'q_event_3'
-            },
-            q_event_3: {
-                text: '出演者や演奏者（プロ・アマ問わず）に「報酬（ギャラ）」を支払いますか？',
-                yes: 'r_ng_fee',
-                no: 'q_event_4'
-            },
-            q_event_4: {
-                text: '市販の映画（DVD/Blu-ray）を上映しようとしていますか？',
-                yes: 'r_ng_movie',
-                no: 'r_ok_event'
-            },
-
-            // --- 校務・HPシーン (教員向けに調整) ---
-            q_creative_1: {
+            // --- 外部向けシーン（旧クリエイティブ + イベント要素） ---
+            q_external_1: {
                 text: '利用しようとしている著作物は、すでに公表されていますか？',
-                yes: 'q_creative_2',
+                yes: 'q_external_2',
                 no: 'r_ng_unpublished'
             },
-            q_creative_2: {
+            q_external_2: {
                 text: '「引用」として利用する場合、自分の文章が「主」で、他人の著作物が「従」の関係ですか？',
-                subText: '単なる転載や、イラストの飾り利用は引用になりません。',
-                yes: 'q_creative_3',
+                subText: '単なる転載（カットイラストとしての利用など）や、飾りとしての利用は引用になりません。',
+                yes: 'q_external_3',
                 no: 'r_ng_relation'
             },
-            q_creative_3: {
+            q_external_3: {
                 text: '出典（タイトル・著作者名など）を明記していますか？',
-                yes: 'q_creative_4',
+                yes: 'q_external_4',
                 no: 'r_ng_source'
             },
-            q_creative_4: {
+            q_external_4: {
                 text: 'インターネット（学校HPやSNS）で公開する予定ですか？',
                 yes: 'r_check_online',
                 no: 'r_ok_quote'
@@ -193,7 +162,7 @@
 
             // --- 結果データ ---
             
-            // 授業フロー結果（画像対応）
+            // 授業フロー結果
             r_warn_permission: {
                 type: 'warning',
                 title: '結果：要注意',
@@ -208,12 +177,11 @@
             r_warn_pr: {
                 type: 'warning',
                 title: '結果：要注意',
-                message: '学校広報やHP掲載などは別フローで追加の確認が必要です。',
+                message: '学校広報やHP掲載などは「外部向け」フローで確認してください。',
                 details: '「授業の過程」ではない利用（学校紹介パンフレット、保護者向け広報など）は、35条（無許諾利用）の対象外です。',
                 proposal: {
-                    text: 'HPなどインターネットで配信の可能性がある場合は、公衆送信権の処理が必要です。',
-                    linkText: '文化庁: インターネット配信について',
-                    linkUrl: 'https://www.bunka.go.jp/seisaku/chosakuken/seidokaisetsu/gaiyo/internet.html'
+                    text: '最初に戻り「外部向け」を選択して診断し直す',
+                    action: 'reset'
                 },
                 legal: '著作権法第35条 適用外'
             },
@@ -251,19 +219,12 @@
                 legal: '著作権法第35条'
             },
 
-            // その他の結果
-            r_ok_event: {
-                type: 'ok',
-                title: '原則 OK です',
-                message: '非営利・無料・無報酬であれば、上演・演奏が可能です（第38条）。',
-                details: 'ただし、イベントの様子を録画して後日Web等で配信する場合は、別途JASRAC等の許諾が必要になります。',
-                legal: '著作権法第38条第1項'
-            },
+            // 外部向けフロー結果
             r_ok_quote: {
                 type: 'ok',
                 title: '引用として利用可能です',
                 message: '正当な範囲内での「引用」であれば許諾は不要です。',
-                details: '必ず出典を明記してください。',
+                details: '学年だより等の紙媒体であれば問題ありません。必ず出典を明記してください。',
                 proposal: {
                     text: '正しい参考文献の書き方を作成する',
                     action: 'citation'
@@ -274,31 +235,22 @@
                 type: 'warning',
                 title: 'Web公開は要注意',
                 message: '「引用」要件を満たせば可能ですが、肖像権等にも配慮が必要です。',
-                details: '学校HPでの公開は全世界への発信となります。引用の必然性や主従関係を厳格にチェックしてください。',
+                details: '学校HPでの公開は全世界への発信（公衆送信）となります。引用の必然性や主従関係を厳格にチェックしてください。写真に生徒が写り込んでいないかも確認が必要です。',
                 legal: '著作権法第23条（公衆送信権）'
             },
-            r_ng_profit: {
-                type: 'ng',
-                title: 'NG（許諾が必要です）',
-                message: '営利目的のイベントでは、無断利用はできません。',
-                proposal: {
-                    text: 'JASRAC等へ申請し、使用料を支払う必要があります。',
-                    linkText: 'JASRAC 学校行事での音楽利用',
-                    linkUrl: 'https://www.jasrac.or.jp/info/event/school.html'
-                },
-                legal: '著作権法第38条（適用外）'
+            r_ng_unpublished: { 
+                type: 'ng', 
+                title: 'NG', 
+                message: '未公表の著作物は引用できません。', 
+                legal: '著作権法第18条' 
             },
-            r_ng_ticket: { type: 'ng', title: 'NG（許諾要）', message: '入場料を取る場合は許諾が必要です。', legal: '著作権法第38条' },
-            r_ng_fee: { type: 'ng', title: 'NG（許諾要）', message: '出演者に報酬を支払う場合は許諾が必要です。', legal: '著作権法第38条' },
-            r_ng_movie: {
-                type: 'ng',
-                title: '原則 NG（業務用が必要）',
-                message: '市販DVDの学校行事での上映は「頒布権」等の問題があります。',
-                details: '教育機関向けの上映権付きライセンスを購入してください。',
-                legal: '著作権法第26条（頒布権）'
+            r_ng_relation: { 
+                type: 'ng', 
+                title: 'NG（許諾が必要です）', 
+                message: 'ただの転載（イラスト利用など）は引用になりません。', 
+                details: 'お便りの挿絵としてキャラクターなどを使う場合は、原則として著作者の許諾が必要です。フリー素材などを活用してください。',
+                legal: '著作権法第32条 適用外' 
             },
-            r_ng_unpublished: { type: 'ng', title: 'NG', message: '未公表の著作物は引用できません。', legal: '著作権法第18条' },
-            r_ng_relation: { type: 'ng', title: 'NG', message: 'ただの転載は引用になりません。主従関係が必要です。', legal: '著作権法第32条' },
             r_ng_source: {
                 type: 'ng',
                 title: 'NG',
@@ -431,19 +383,19 @@
                                 <p class="text-sm text-slate-500">該当するシチュエーションを選択してください</p>
                             </div>
 
-                            <div class="grid md:grid-cols-3 gap-4">
+                            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
                                 ${scenes.map(s => `
-                                    <button onclick="setScene('${s.id}')" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md border border-slate-200 flex flex-col items-center text-center transition-all hover:bg-slate-50 group h-full">
+                                    <button onclick="setScene('${s.id}')" class="bg-white p-8 rounded-xl shadow-sm hover:shadow-md border border-slate-200 flex flex-col items-center text-center transition-all hover:bg-slate-50 group h-full">
                                         <div class="transform group-hover:scale-110 transition-transform duration-200">
-                                            <i data-lucide="${s.icon}" class="w-10 h-10 mb-3 ${s.color}"></i>
+                                            <i data-lucide="${s.icon}" class="w-12 h-12 mb-4 ${s.color}"></i>
                                         </div>
-                                        <h3 class="font-bold text-lg mb-2 text-slate-800">${s.title}</h3>
+                                        <h3 class="font-bold text-xl mb-3 text-slate-800">${s.title}</h3>
                                         <p class="text-sm text-slate-500 leading-relaxed">${s.description}</p>
                                     </button>
                                 `).join('')}
                             </div>
 
-                            <div class="mt-8 bg-blue-50 p-4 rounded-lg text-sm text-blue-800 flex gap-3 border border-blue-100">
+                            <div class="mt-8 bg-blue-50 p-4 rounded-lg text-sm text-blue-800 flex gap-3 border border-blue-100 max-w-3xl mx-auto">
                                 <i data-lucide="info" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
                                 <div>
                                     <p class="font-bold mb-1">本ツールについて</p>
@@ -560,6 +512,11 @@
                                                 ${r.proposal.action === 'citation' ? `
                                                     <button onclick="setAppMode('citation')" class="ml-7 mt-2 text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 inline-flex items-center gap-1 transition-colors">
                                                         <i data-lucide="arrow-right" class="w-4 h-4"></i> 参考文献の書き方ページへ
+                                                    </button>
+                                                ` : ''}
+                                                ${r.proposal.action === 'reset' ? `
+                                                    <button onclick="resetChecker()" class="ml-7 mt-2 text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 inline-flex items-center gap-1 transition-colors">
+                                                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> 最初に戻る
                                                     </button>
                                                 ` : ''}
                                                 ${r.proposal.linkUrl ? `
@@ -685,6 +642,10 @@
                                         ${state.citationType === 'web' ? `
                                             <li>Webサイトは内容が書き換わることがあるため、「閲覧日」が非常に重要です。</li>
                                             <li>URLは途中で改行せず、リンクが切れていないか確認しましょう。</li>
+                                        ` : ''}
+                                        ${state.citationType === 'article' ? `
+                                            <li>掲載誌名の後に「巻・号」と、引用箇所または全体の「ページ番号（p.xx-xx）」を必ず記載します。</li>
+                                            <li>英語の論文の場合、タイトルをイタリック体にするなどのルールが異なる場合があります。</li>
                                         ` : ''}
                                     </ul>
                                 </div>
